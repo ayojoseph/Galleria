@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
@@ -14,6 +14,7 @@ import Cursor from "../components/Cursor";
 
 // Local Data
 import data from "../data/portfolio.json";
+import axios from "axios";
 
 export default function Home() {
   // Ref
@@ -41,13 +42,28 @@ export default function Home() {
     });
   };
 
-  useIsomorphicLayoutEffect(() => {
-    stagger(
-      [textOne.current, textTwo.current, textThree.current, textFour.current],
-      { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-      { y: 0, x: 0, transform: "scale(1)" }
-    );
+  // useIsomorphicLayoutEffect(() => {
+  //   stagger(
+  //     [textOne.current, textTwo.current, textThree.current, textFour.current],
+  //     { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
+  //     { y: 0, x: 0, transform: "scale(1)" }
+  //   );
+  // }, []);
+
+  const [isLoading, setLoading] = useState(true);
+  const [imageData, setImageData] = useState();
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/slideshow_home").then(response => {
+      setImageData(response.data);
+      setLoading(false);
+      // console.log(response.data);
+    });
   }, []);
+
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
 
   return (
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
@@ -96,7 +112,7 @@ export default function Home() {
         </div>
 
         <div className="mt-5 laptop:mt-10">
-          <SlideShow/>
+          <SlideShow img={imageData}/>
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
           <h1 className="text-2xl text-bold">Work.</h1>

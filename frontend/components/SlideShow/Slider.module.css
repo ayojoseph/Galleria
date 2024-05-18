@@ -3,7 +3,7 @@
     margin: 0 auto;
   
     list-style: none;
-    padding: 0;
+    padding: 30;
   }
   
   .slide > div {
@@ -13,7 +13,7 @@
     background-size: cover;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: 60vh;
   }
   
   .slide span {
