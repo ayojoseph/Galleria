@@ -53,9 +53,12 @@ export default function Home() {
   const [isLoading, setLoading] = useState(true);
   const [imageData, setImageData] = useState();
 
+  const [projectsData, setProjectsData] = useState();
+
   useEffect(() => {
-    axios.get("http://localhost:3000/slideshow_home").then(response => {
-      setImageData(response.data);
+    axios.get("http://localhost:3000/homepage_info").then(response => {
+      setImageData(response.data.images);
+      setProjectsData(response.data.projects);
       setLoading(false);
       // console.log(response.data);
     });
@@ -80,7 +83,7 @@ export default function Home() {
           handleWorkScroll={handleWorkScroll}
           handleAboutScroll={handleAboutScroll}
         />
-        <div className="laptop:mt-20 mt-10">
+        {/* <div className="laptop:mt-20 mt-10">
           <div className="mt-5">
             <h1
               ref={textOne}
@@ -109,7 +112,7 @@ export default function Home() {
           </div>
 
           <Socials className="mt-2 laptop:mt-5" />
-        </div>
+        </div> */}
 
         <div className="mt-5 laptop:mt-10">
           <SlideShow img={imageData}/>
@@ -118,7 +121,7 @@ export default function Home() {
           <h1 className="text-2xl text-bold">Work.</h1>
 
           <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 gap-4">
-            {data.projects.map((project) => (
+            {projectsData.map((project) => (
               <WorkCard
                 key={project.id}
                 img={project.imageSrc}
